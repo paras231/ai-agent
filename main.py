@@ -55,7 +55,7 @@ def get_intent(input_text):
 
 
 # Example usage
-input_text = "book honeymoon tickets for andaman."
+input_text = "order a coffee"
 result = get_intent(input_text)
 # print(result)
 
@@ -94,7 +94,7 @@ def launch_search(query):
     page.wait_for_selector("#search", timeout=10000)
     page.wait_for_load_state("networkidle")
 
-    # page.wait_for_selector("#search")
+    page.wait_for_selector("#search")
     frame = page.main_frame  # Use the main frame
     first_result = frame.query_selector("a h3")
 
@@ -106,11 +106,13 @@ def launch_search(query):
     else:
         print("No search results found.")
 
-    page.wait_for_load_state("networkidle")
+    page.wait_for_load_state("domcontentloaded")
     time.sleep(5)
     # Take a screenshot of the results page
-    page.screenshot(path="google_search.png")
-
+    page.screenshot(path="google_search1.png")
+    page.evaluate("window.scrollBy(0, 300)")
+    page.screenshot(path="google_search2.png")
+    page.evaluate("window.scrollBy(0, 600)")
     page.wait_for_event("close", timeout=0)
     print("Search completed, screenshot saved.")
     # browser.close()
